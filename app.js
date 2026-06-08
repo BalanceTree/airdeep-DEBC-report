@@ -81,6 +81,26 @@ function toSeriesMap(rows){
   return { names, map, labels };
 }
 
+function toTempSeriesMap(rows){
+  const header = rows[0];
+  const dateIdx = header.findIndex(h => h === '날짜');
+  const outdoorIdx = header.findIndex(h => h === OUTDOOR_KEY);
+  const innerIdx = header.findIndex((h,i) => i !== dateIdx && i !== outdoorIdx);
+  const innerName = header[innerIdx] || '실내 평균온도';
+  const names = [innerName, OUTDOOR_KEY];
+  const map = { [innerName]: [], [OUTDOOR_KEY]: [] };
+  const labels = [];
+  for(let r=1;r<rows.length;r++){
+    const d = rows[r][dateIdx] ?? '';
+    const m = d.match(/(\d{4})-(\d{2})-(\d{2})/);
+    if(!m) continue;
+    labels.push(m ? String(Number(m[3])) : d);
+    map[innerName].push(num(rows[r][innerIdx]));
+    map[OUTDOOR_KEY].push(num(rows[r][outdoorIdx]));
+  }
+  return { names, map, labels };
+}
+
 function toObjects(rows){
   const header = rows[0];
   return rows.slice(1).map(row=>{
@@ -193,7 +213,7 @@ function fmtNum(v, digits=1){
 }
 function fmtZoneName(v){
   return String(v || '')
-    .replace(/^(본사|지역센터|가치만드소)_/, '')
+    .replace(/^(본사|지역센터|가치만드소|지역)_/, '')
     .replace(/_/g, ' ')
     .replace(/서울(?=\d)/g, '서울 ')
     .trim();
@@ -204,18 +224,18 @@ function fillIncreaseTable(tbodyId, rows){
   const tb = document.getElementById(tbodyId);
   if(!tb) return;
   const data = rows.map(r=>{
-    const prevTot = num(r['총가동시간_시간_4월']) ?? 0;
-    const curTot  = num(r['총가동시간_시간_5월']) ?? 0;
+    const prevTot = num(r['총가동시간_시간_4월']) ?? num(r['4월_총가동시간']) ?? num(r['4월_총가동시간_시간']) ?? 0;
+    const curTot  = num(r['총가동시간_시간_5월']) ?? num(r['5월_총가동시간']) ?? num(r['5월_총가동시간_시간']) ?? 0;
     const totDiff = num(r['총가동시간_증감']) ?? +(curTot-prevTot).toFixed(2);
     const pct = prevTot > 0 ? (totDiff / prevTot) * 100 : null;
     return {
-      zone: fmtZoneName(r['HUB_NICKNAME'] || r['지역'] || ''),
+      zone: fmtZoneName(r['HUB_NICKNAME'] || r['허브_위치'] || r['지역'] || ''),
       prevTot,
       curTot,
       totDiff,
       pct
     };
-  }).filter(r=>r.zone).sort((a,b)=> b.totDiff - a.totDiff).slice(0,6);
+  }).filter(r=>r.zone).sort((a,b)=> b.totDiff - a.totDiff).slice(0,5);
 
   const diffCls = v => v>0 ? 'risk' : (v<0 ? 'ok-txt' : '');
   const sign = v => (v>0?'+':'') + fmtNum(v, 1);
@@ -265,9 +285,9 @@ async function main(){
       const m = String(r[0] ?? '').trim().match(/^(\d{4})-(\d{2})-(\d{2})$/);
       if(m && isHolidayDate(m[0])) HOLIDAYS.add(Number(m[3]));
     });
-    tempHQ       = toSeriesMap(hqRows);
-    tempRegional = toSeriesMap(parseCSV(txt.tempRegional));
-    tempGachi    = toSeriesMap(parseCSV(txt.tempGachi));
+    tempHQ       = toTempSeriesMap(hqRows);
+    tempRegional = toTempSeriesMap(parseCSV(txt.tempRegional));
+    tempGachi    = toTempSeriesMap(parseCSV(txt.tempGachi));
     operHQ       = toSeriesMap(parseCSV(txt.operHQ));
     operNorth    = toSeriesMap(parseCSV(txt.operNorth));
     operMiddle   = toSeriesMap(parseCSV(txt.operMiddle));

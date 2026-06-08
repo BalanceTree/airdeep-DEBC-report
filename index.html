@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://cdn.jsdelivr.net">
 <link rel="stylesheet" as="style" crossorigin
   href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css?v=20260608-2">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 </head>
 <body>
@@ -63,7 +63,7 @@
         </div>
       </div>
       <div class="cmnt" style="margin-top:14px"><div class="cmnt-bar" style="background:#2D6BFF"></div>
-        <div class="cmnt-text">5월은 외기온 상승으로 전국 냉방 수요가 본격화된 달입니다. 서울 본사 6층 사무실과 진주 지역센터의 가동시간이 전월 대비 크게 증가하였으며, 적정온도 유지율이 71%로 하락해 냉방 스케줄 점검이 필요합니다.</div>
+        <div class="cmnt-text">5월은 14~15일과 월말에 실외 최고기온이 30℃ 이상으로 상승하며 냉방 수요가 확대된 달입니다. 전월 대비 근무시간 가동 증가는 서울 본사 6층 사무실, 서울 본사 7층 회의실, 부천 지역센터 사무실 순으로 크게 나타났으며, 근무시간 외에는 서울 본사 6층 사무실과 대전·부산 지역센터 사무실의 증가가 두드러졌습니다.</div>
       </div>
     </div>
     <div class="alerts">
@@ -77,11 +77,11 @@
       </div>
       <div class="alert-item">
         <div class="alert-tag tag-c">CHECK</div>
-        <div class="alert-body"><strong>진주 지역센터</strong> · 사무실 근무시간 가동 98.7h · 전월(58.3h) 대비 +40.4h(+69%) 증가 — 냉방 개시 기준 및 설정온도 점검</div>
+        <div class="alert-body"><strong>서울 본사 7층 회의실</strong> · 근무시간 내 총가동 316.75h로 전월(150.58h) 대비 +166.17h 증가 — 회의실 사용일 냉방 스케줄 점검 필요</div>
       </div>
       <div class="alert-item">
         <div class="alert-tag tag-w">WARN</div>
-        <div class="alert-body"><strong>전국 공통</strong> · 5월 중순 이후 외기온 30℃ 초과 구간 증가 — 28℃ 이상 초과 구역 냉방 대응 강화 필요</div>
+        <div class="alert-body"><strong>지역센터 사무실</strong> · 부천은 근무시간 +126h, 대전·부산은 근무시간 외 각각 +32h, +29h 증가 — 사용 종료 후 잔여 가동 여부 점검 필요</div>
       </div>
     </div>
   </div>
@@ -168,76 +168,26 @@
     <div class="sec-note">적정 운영 기준 20 — 26℃ · 실외 최고기온은 검은 점선 · 28℃ 이상 구간은 빨간색 · 주말·공휴일 날짜 빨간색 표시</div>
   </div>
 
-  <!-- 3-1. 본사 -->
   <div class="chart-card">
-    <div class="chart-card-title">3-1. 서울 본사 구역별 일평균 실내 온도</div>
-    <div class="legend-row">
-      <span><i style="background:#2D6BFF"></i>실내온도</span>
-      <span><i style="background:#111827;height:0;border-top:2px dashed #111827;width:18px"></i>실외 최고기온</span>
-      <span><i style="background:rgba(229,72,77,0.15);border:1px dashed rgba(229,72,77,0.4);width:12px;height:12px;border-radius:2px"></i>28℃ 이상</span>
-    </div>
-    <div class="chart-2col">
+    <div class="chart-3col">
       <div>
-        <div class="chart-sub-title">3-1.1. 서울 1층</div>
-        <div class="cw h200"><canvas id="c-temp-hq-1f"></canvas></div>
+        <div class="chart-sub-title">본사 · 서울 3층</div>
+        <div class="legend-row" id="lg-temp-hq"></div>
+        <div class="cw h220"><canvas id="c-temp-hq"></canvas></div>
       </div>
       <div>
-        <div class="chart-sub-title">3-1.2. 서울 3층</div>
-        <div class="cw h200"><canvas id="c-temp-hq-3f"></canvas></div>
+        <div class="chart-sub-title">지역센터 · 부천</div>
+        <div class="legend-row" id="lg-temp-regional"></div>
+        <div class="cw h220"><canvas id="c-temp-regional"></canvas></div>
+      </div>
+      <div>
+        <div class="chart-sub-title">가치만드소 · 광주</div>
+        <div class="legend-row" id="lg-temp-gachi"></div>
+        <div class="cw h220"><canvas id="c-temp-gachi"></canvas></div>
       </div>
     </div>
     <div class="cmnt" style="margin-top:12px"><div class="cmnt-bar" style="background:#2D6BFF"></div>
-      <div class="cmnt-text">서울 본사 1층과 3층은 5월 중순 이후 외기온 상승과 함께 실내 온도가 상승하는 흐름이 확인됩니다. 3층은 5월 17~18일 28℃를 초과하여 냉방 가동 대응이 필요한 구간이 발생했습니다.</div>
-    </div>
-  </div>
-
-  <!-- 3-2. 지역센터 -->
-  <div class="chart-card" style="margin-top:14px">
-    <div class="chart-card-title">3-2. 지역센터 지역별 일평균 실내 온도</div>
-    <div class="legend-row">
-      <span><i style="background:#2D6BFF"></i>실내온도</span>
-      <span><i style="background:#111827;height:0;border-top:2px dashed #111827;width:18px"></i>실외 최고기온</span>
-      <span><i style="background:rgba(229,72,77,0.15);border:1px dashed rgba(229,72,77,0.4);width:12px;height:12px;border-radius:2px"></i>28℃ 이상</span>
-    </div>
-    <div class="chart-3col">
-      <div>
-        <div class="chart-sub-title">3-2.1. 진주</div>
-        <div class="cw h200"><canvas id="c-temp-jinju"></canvas></div>
-      </div>
-      <div>
-        <div class="chart-sub-title">3-2.2. 충북</div>
-        <div class="cw h200"><canvas id="c-temp-chungbuk"></canvas></div>
-      </div>
-      <div>
-        <div class="chart-sub-title">3-2.3. 부천</div>
-        <div class="cw h200"><canvas id="c-temp-bucheon"></canvas></div>
-      </div>
-    </div>
-    <div class="cmnt" style="margin-top:12px"><div class="cmnt-bar" style="background:#E5484D"></div>
-      <div class="cmnt-text">지역센터 3개 지역 모두 5월 14~18일 구간에 실내 온도 상승이 집중되었습니다. 진주는 외기 영향을 가장 크게 받아 28℃ 초과 구간이 나타났으며, 충북·부천은 상대적으로 안정적인 편입니다.</div>
-    </div>
-  </div>
-
-  <!-- 3-3. 가치만드소 -->
-  <div class="chart-card" style="margin-top:14px">
-    <div class="chart-card-title">3-3. 가치만드소 지역별 일평균 실내 온도</div>
-    <div class="legend-row">
-      <span><i style="background:#2D6BFF"></i>실내온도</span>
-      <span><i style="background:#111827;height:0;border-top:2px dashed #111827;width:18px"></i>실외 최고기온</span>
-      <span><i style="background:rgba(229,72,77,0.15);border:1px dashed rgba(229,72,77,0.4);width:12px;height:12px;border-radius:2px"></i>28℃ 이상</span>
-    </div>
-    <div class="chart-2col">
-      <div>
-        <div class="chart-sub-title">3-3.1. 광주</div>
-        <div class="cw h200"><canvas id="c-temp-gwangju"></canvas></div>
-      </div>
-      <div>
-        <div class="chart-sub-title">3-3.2. 아산</div>
-        <div class="cw h200"><canvas id="c-temp-asan"></canvas></div>
-      </div>
-    </div>
-    <div class="cmnt" style="margin-top:12px"><div class="cmnt-bar" style="background:#F59E0B"></div>
-      <div class="cmnt-text">가치만드소 광주·아산은 5월 전반적으로 24~26℃ 범위를 유지했습니다. 5월 하순 외기 상승 구간에 광주가 일부 28℃에 근접하여 냉방 대응 여부를 확인할 필요가 있습니다.</div>
+      <div class="cmnt-text">대표 구역의 5월 평균 실내온도는 서울 3층 24.44℃, 부천 23.67℃, 광주 24.39℃로 모두 적정 운영 기준 범위에 대체로 머물렀습니다. 실외 최고기온은 5월 14~15일 31℃ 이상까지 상승했지만, 세 대표 구역의 실내 최고온도는 26℃ 이하로 유지되어 고온일에도 실내 온도 관리는 비교적 안정적으로 이루어진 것으로 보입니다.</div>
     </div>
   </div>
 </section>
@@ -249,53 +199,53 @@
     <div class="sec-note">본 가동시간은 진동센서 기반 추정값이며 실제 가동시간과 차이가 있을 수 있습니다 · 주말·공휴일 날짜 빨간색 표시</div>
   </div>
 
-  <!-- 4-1. 서울 본사 -->
+  <!-- 서울 본사 -->
   <div class="chart-card">
-    <div class="chart-card-title">4-1. 서울 본사 구역별 일평균 냉난방기 가동시간</div>
+    <div class="chart-card-title">서울 본사 구역별 일평균 냉난방기 가동시간</div>
     <div class="legend-row" id="lg-oper-hq"></div>
     <div class="cw h220"><canvas id="c-oper-hq"></canvas></div>
     <div class="cmnt"><div class="cmnt-bar" style="background:#2D6BFF"></div>
-      <div class="cmnt-text">3층이 일평균 가동시간 기준 전 구역 중 가장 높은 수준(3.11h)을 기록했습니다. 6층도 높은 가동 강도를 보이며, 별관은 가동시간이 매우 낮게 나타났습니다. 주말·공휴일에는 전 구역 가동이 크게 감소합니다.</div>
+      <div class="cmnt-text">서울 본사는 3층 누적 60.98h, 2층 54.99h, 6층 46.86h 순으로 가동시간이 높게 나타났습니다. 1층과 별관은 상대적으로 낮은 수준이었으며, 주말·공휴일에는 대부분 구역의 가동이 크게 줄어 평일 업무 공간 중심으로 냉방 수요가 발생한 것으로 보입니다.</div>
     </div>
   </div>
 
-  <!-- 4-2. 지역센터 북부 -->
+  <!-- 지역센터 북부 -->
   <div class="chart-card">
-    <div class="chart-card-title">4-2. 지역센터 북부(부천) 상세별 일평균 냉난방기 가동시간</div>
+    <div class="chart-card-title">지역센터 북부(부천) 상세별 일평균 냉난방기 가동시간</div>
     <div class="legend-row" id="lg-oper-north"></div>
     <div class="cw h200"><canvas id="c-oper-north"></canvas></div>
     <div class="cmnt"><div class="cmnt-bar" style="background:#22C55E"></div>
-      <div class="cmnt-text">부천 지역센터는 사무실 가동시간이 가장 높고 교육실·공용공간 순으로 나타납니다. 5월 중순 이후 사무실 가동이 증가하는 패턴이 확인되며 냉방 스케줄 점검이 필요합니다.</div>
+      <div class="cmnt-text">북부권 지역센터는 부천 누적 65.56h로 가장 높고, 인천 41.26h, 고양 32.41h 순으로 나타났습니다. 특히 부천은 5월 하순으로 갈수록 일평균 가동시간이 증가해, 외기온 상승 구간의 냉방 개시 기준과 종료 스케줄을 함께 확인할 필요가 있습니다.</div>
     </div>
   </div>
 
-  <!-- 4-3. 지역센터 중부 -->
+  <!-- 지역센터 중부 -->
   <div class="chart-card">
-    <div class="chart-card-title">4-3. 지역센터 중부(충북) 상세별 일평균 냉난방기 가동시간</div>
+    <div class="chart-card-title">지역센터 중부(충북) 상세별 일평균 냉난방기 가동시간</div>
     <div class="legend-row" id="lg-oper-middle"></div>
     <div class="cw h200"><canvas id="c-oper-middle"></canvas></div>
     <div class="cmnt"><div class="cmnt-bar" style="background:#F59E0B"></div>
-      <div class="cmnt-text">충북 지역센터는 전반적으로 낮은 가동 수준을 유지하고 있으며, 사무실 중심의 가동 패턴이 확인됩니다. 교육 일정 증가 시 교육실 가동시간이 함께 상승할 수 있어 모니터링이 필요합니다.</div>
+      <div class="cmnt-text">중부권 지역센터는 대전 누적 48.08h로 가장 높고, 청주 26.05h, 천안 22.74h 순으로 뒤를 이었습니다. 대전은 5월 26~29일 구간에서 가동시간이 크게 증가해 월말 고온 구간의 냉방 사용이 집중된 것으로 보이며, 장시간 운전일 중심의 종료 관리가 필요합니다.</div>
     </div>
   </div>
 
-  <!-- 4-4. 지역센터 남부 -->
+  <!-- 지역센터 남부 -->
   <div class="chart-card">
-    <div class="chart-card-title">4-4. 지역센터 남부(진주) 상세별 일평균 냉난방기 가동시간</div>
+    <div class="chart-card-title">지역센터 남부(진주) 상세별 일평균 냉난방기 가동시간</div>
     <div class="legend-row" id="lg-oper-south"></div>
     <div class="cw h200"><canvas id="c-oper-south"></canvas></div>
     <div class="cmnt"><div class="cmnt-bar" style="background:#E5484D"></div>
-      <div class="cmnt-text">진주 지역센터는 3개 지역센터 중 가동시간이 가장 높습니다. 사무실 일평균 3.1h로 전국 지역센터 중 최고 수준이며, 전월 대비 근무시간 내 가동이 69% 증가하여 우선 점검이 필요합니다.</div>
+      <div class="cmnt-text">남부권 지역센터는 부산 누적 56.04h, 광주 53.47h, 진주 43.43h 순으로 가동시간이 높게 나타났습니다. 부산과 광주는 하순에 4h 내외까지 상승한 날이 있어 고온일 냉방 수요가 비교적 크게 반영되었으며, 퇴실 후 잔여 가동 여부를 함께 점검하는 것이 좋습니다.</div>
     </div>
   </div>
 
-  <!-- 4-5. 가치만드소 -->
+  <!-- 가치만드소 -->
   <div class="chart-card">
-    <div class="chart-card-title">4-5. 가치만드소 상세별 일평균 냉난방기 가동시간</div>
+    <div class="chart-card-title">가치만드소 상세별 일평균 냉난방기 가동시간</div>
     <div class="legend-row" id="lg-oper-gachi"></div>
     <div class="cw h200"><canvas id="c-oper-gachi"></canvas></div>
     <div class="cmnt"><div class="cmnt-bar" style="background:#7C3AED"></div>
-      <div class="cmnt-text">가치만드소 광주·아산 모두 작업장 가동시간이 사무실보다 높게 나타납니다. 작업 특성상 냉방이 필수적인 공간으로, 이용 종료 후 자동 OFF 설정 여부를 확인하는 것이 효과적입니다.</div>
+      <div class="cmnt-text">가치만드소는 익산 누적 63.04h로 가장 높고, 광주 44.93h, 아산 41.65h 순으로 나타났습니다. 익산은 월말에 일 4h 이상 가동된 날이 반복되어 작업장 또는 상주 공간의 냉방 수요가 컸던 것으로 보이며, 이용 종료 후 자동 OFF 설정 여부를 우선 확인하는 것이 효과적입니다.</div>
     </div>
   </div>
 </section>
@@ -307,12 +257,12 @@
     <div class="sec-sub">4월 → 5월 총가동시간 기준 · 증감 큰 순</div>
   </div>
 
-  <!-- 5-1. 근무시간 -->
+  <!-- 근무시간 -->
   <div class="chart-card">
-    <div class="chart-card-title">5-1. 전월 대비 냉난방기 사용량 증가 구역 (평일 근무시간 기준)</div>
+    <div class="chart-card-title">전월 대비 냉난방기 사용량 증가 구역 (평일 근무시간 기준)</div>
     <table class="analysis-table increase-table">
       <colgroup>
-        <col style="width:6%"><col class="inc-col-zone"><col class="inc-col-num"><col class="inc-col-num"><col class="inc-col-num"><col class="inc-col-num">
+        <col class="inc-col-rank"><col class="inc-col-zone"><col class="inc-col-num"><col class="inc-col-num"><col class="inc-col-num"><col class="inc-col-rate">
       </colgroup>
       <thead>
         <tr><th>#</th><th>구역</th><th>전월 (h)</th><th>당월 (h)</th><th>증감 (h)</th><th>증감률</th></tr>
@@ -320,16 +270,16 @@
       <tbody id="incWorkB"></tbody>
     </table>
     <div class="cmnt" style="margin-top:12px"><div class="cmnt-bar" style="background:#2D6BFF"></div>
-      <div class="cmnt-text">근무시간 기준 서울 본사 6층 사무실이 +192h(+78%)로 증가폭이 가장 크고, 진주 지역센터 사무실이 +40h(+69%)로 그 뒤를 잇습니다. 5월 외기온 상승으로 전국적으로 냉방 가동이 전월 대비 크게 늘었습니다.</div>
+      <div class="cmnt-text">근무시간 기준 전월 대비 증가폭은 서울 본사 6층 사무실 +192.25h, 서울 본사 7층 회의실 +166.17h, 부천 지역센터 사무실 +126h 순으로 컸습니다. 서울 본사 회의실·사무실과 일부 지역센터 사무실을 중심으로 5월 냉방 수요 증가가 뚜렷하게 반영되었습니다.</div>
     </div>
   </div>
 
-  <!-- 5-2. 근무시간외 -->
+  <!-- 근무시간외 -->
   <div class="chart-card">
-    <div class="chart-card-title">5-2. 전월 대비 냉난방기 사용량 증가 구역 (평일 근무시간외 기준)</div>
+    <div class="chart-card-title">전월 대비 냉난방기 사용량 증가 구역 (평일 근무시간외 기준)</div>
     <table class="analysis-table increase-table">
       <colgroup>
-        <col style="width:6%"><col class="inc-col-zone"><col class="inc-col-num"><col class="inc-col-num"><col class="inc-col-num"><col class="inc-col-num">
+        <col class="inc-col-rank"><col class="inc-col-zone"><col class="inc-col-num"><col class="inc-col-num"><col class="inc-col-num"><col class="inc-col-rate">
       </colgroup>
       <thead>
         <tr><th>#</th><th>구역</th><th>전월 (h)</th><th>당월 (h)</th><th>증감 (h)</th><th>증감률</th></tr>
@@ -337,7 +287,7 @@
       <tbody id="incOffB"></tbody>
     </table>
     <div class="cmnt" style="margin-top:12px"><div class="cmnt-bar" style="background:#F59E0B"></div>
-      <div class="cmnt-text">근무시간외 기준 서울 본사 6층이 +69.92h(+227%)로 가장 크게 증가했습니다. 야간 자동 종료 설정이 미흡한 구역을 우선적으로 점검하고, 근무 종료 후 냉방 스케줄 기준을 강화해야 합니다.</div>
+      <div class="cmnt-text">근무시간외 기준으로는 서울 본사 6층 사무실이 +69.92h로 가장 크게 증가했고, 대전 지역센터 사무실 +32h, 부산 지역센터 사무실 +29h가 뒤를 이었습니다. 근무시간 외 가동 증가는 불필요한 에너지 소비로 이어질 수 있으므로, 야간 자동 종료 설정과 퇴실 후 전원 OFF 여부를 우선 점검해야 합니다.</div>
     </div>
   </div>
 </section>
@@ -349,6 +299,6 @@
 </footer>
 </div>
 
-<script src="app.js"></script>
+<script src="app.js?v=20260608-2"></script>
 </body>
 </html>

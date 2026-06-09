@@ -219,37 +219,44 @@ function fmtZoneName(v){
     .trim();
 }
 
-/* ── 전월 대비 증가 TOP5 표 ─────────────────────────────────── */
+/* ── 전월 대비 증가 TOP5 표 (11열) ───────────────────────────
+   장비당 일평균 가동시간 증감 기준 내림차순 · 상위 5개 · 증감시간(h) 표기 */
 function fillIncreaseTable(tbodyId, rows){
   const tb = document.getElementById(tbodyId);
   if(!tb) return;
   const data = rows.map(r=>{
-    const prevTot = num(r['총가동시간_시간_4월']) ?? num(r['4월_총가동시간']) ?? num(r['4월_총가동시간_시간']) ?? 0;
-    const curTot  = num(r['총가동시간_시간_5월']) ?? num(r['5월_총가동시간']) ?? num(r['5월_총가동시간_시간']) ?? 0;
-    const totDiff = num(r['총가동시간_증감']) ?? +(curTot-prevTot).toFixed(2);
-    const pct = prevTot > 0 ? (totDiff / prevTot) * 100 : null;
+    const ctrl    = num(r['제어기_장치수']) ?? num(r['제어기수']) ?? 0;
+    const prevTot = num(r['4월_총가동시간']) ?? num(r['4월_총가동시간_시간']) ?? num(r['총가동시간_시간_4월']) ?? 0;
+    const prevAvg = num(r['4월_장비당_일평균가동시간']) ?? num(r['장비당_일평균가동시간_시간_4월']) ?? 0;
+    const curTot  = num(r['5월_총가동시간']) ?? num(r['5월_총가동시간_시간']) ?? num(r['총가동시간_시간_5월']) ?? 0;
+    const curAvg  = num(r['5월_장비당_일평균가동시간']) ?? num(r['장비당_일평균가동시간_시간_5월']) ?? 0;
     return {
-      zone: fmtZoneName(r['HUB_NICKNAME'] || r['허브_위치'] || r['지역'] || ''),
-      prevTot,
-      curTot,
-      totDiff,
-      pct
+      gubun:  r['구분'] || '',
+      region: r['지역'] || '',
+      hub:    fmtZoneName(r['허브_위치'] || r['HUB_NICKNAME'] || ''),
+      ctrl, prevTot, prevAvg, curTot, curAvg,
+      totDiff: num(r['총가동시간_증감']) ?? +(curTot-prevTot).toFixed(2),
+      avgDiff: num(r['장비당_일평균가동시간_증감']) ?? +(curAvg-prevAvg).toFixed(2)
     };
-  }).filter(r=>r.zone).sort((a,b)=> b.totDiff - a.totDiff).slice(0,5);
+  }).filter(r=>r.region).sort((a,b)=> b.avgDiff - a.avgDiff).slice(0,5);
 
   const diffCls = v => v>0 ? 'risk' : (v<0 ? 'ok-txt' : '');
-  const sign = v => (v>0?'+':'') + fmtNum(v, 1);
+  const sign = v => (v>0?'+':'') + fmtNum(v, 2);
   tb.innerHTML = data.map((r,i)=>{
     const rank = i===0 ? '<span class="rk1">1</span>' : `<span class="rkn">${i+1}</span>`;
-    const pctTxt = r.pct == null ? '—' : `<span class="${diffCls(r.totDiff)}">${r.totDiff >= 0 ? '▲' : '▼'} ${fmtNum(Math.abs(r.pct), 1)}%</span>`;
-    return `<tr>
-      <td class="num">${rank}</td>
-      <td class="inc-zone"><strong>${r.zone}</strong></td>
-      <td class="num">${fmtNum(r.prevTot, 2)}</td>
-      <td class="num">${fmtNum(r.curTot, 2)}</td>
-      <td class="num ${diffCls(r.totDiff)}">${sign(r.totDiff)}</td>
-      <td class="num inc-rate">${pctTxt}</td>
-    </tr>`;
+    return `<tr>`+
+      `<td class="num">${rank}</td>`+
+      `<td>${r.gubun}</td>`+
+      `<td class="inc-zone"><strong>${r.region}</strong></td>`+
+      `<td>${r.hub}</td>`+
+      `<td class="num">${r.ctrl}</td>`+
+      `<td class="num">${fmtNum(r.prevTot,2)}</td>`+
+      `<td class="num">${fmtNum(r.prevAvg,2)}</td>`+
+      `<td class="num">${fmtNum(r.curTot,2)}</td>`+
+      `<td class="num">${fmtNum(r.curAvg,2)}</td>`+
+      `<td class="num ${diffCls(r.totDiff)}">${sign(r.totDiff)}</td>`+
+      `<td class="num ${diffCls(r.avgDiff)}">${sign(r.avgDiff)}</td>`+
+    `</tr>`;
   }).join('');
 }
 

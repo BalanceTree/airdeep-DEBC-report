@@ -655,6 +655,31 @@ section {
   margin-bottom: 4px;
 }
 
+.chart-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.chart-title-row .chart-card-title {
+  margin-bottom: 0;
+}
+
+.chart-sub-pill {
+  flex-shrink: 0;
+  padding: 6px 12px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: var(--bg);
+  color: var(--ink-2);
+  font-size: 11.5px;
+  font-weight: 500;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
 .chart-card-note {
   font-size: 11px;
   color: var(--muted);
@@ -1018,6 +1043,8 @@ section {
 
   .sec-head { align-items: flex-start; gap: 8px; flex-direction: column; }
   .sec-sub, .sec-note { white-space: normal; }
+  .chart-title-row { align-items: flex-start; flex-direction: column; }
+  .chart-sub-pill { white-space: normal; }
 
   .summary-grid,
   .chart-2col,

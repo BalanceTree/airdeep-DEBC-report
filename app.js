@@ -241,21 +241,21 @@ function fillIncreaseTable(tbodyId, rows){
   }).filter(r=>r.region).sort((a,b)=> b.avgDiff - a.avgDiff).slice(0,5);
 
   const diffCls = v => v>0 ? 'risk' : (v<0 ? 'ok-txt' : '');
-  const sign = v => (v>0?'+':'') + fmtNum(v, 2);
+  const sign = v => (v>0?'+':'') + v.toFixed(2);
   tb.innerHTML = data.map((r,i)=>{
     const rank = i===0 ? '<span class="rk1">1</span>' : `<span class="rkn">${i+1}</span>`;
     return `<tr>`+
-      `<td class="num">${rank}</td>`+
+      `<td>${rank}</td>`+
       `<td>${r.gubun}</td>`+
-      `<td class="inc-zone"><strong>${r.region}</strong></td>`+
+      `<td><strong>${r.region}</strong></td>`+
       `<td>${r.hub}</td>`+
-      `<td class="num">${r.ctrl}</td>`+
-      `<td class="num">${fmtNum(r.prevTot,2)}</td>`+
-      `<td class="num">${fmtNum(r.prevAvg,2)}</td>`+
-      `<td class="num">${fmtNum(r.curTot,2)}</td>`+
-      `<td class="num">${fmtNum(r.curAvg,2)}</td>`+
-      `<td class="num ${diffCls(r.totDiff)}">${sign(r.totDiff)}</td>`+
-      `<td class="num ${diffCls(r.avgDiff)}">${sign(r.avgDiff)}</td>`+
+      `<td>${r.ctrl}</td>`+
+      `<td>${r.prevTot.toFixed(2)}</td>`+
+      `<td>${r.prevAvg.toFixed(2)}</td>`+
+      `<td>${r.curTot.toFixed(2)}</td>`+
+      `<td>${r.curAvg.toFixed(2)}</td>`+
+      `<td class="${diffCls(r.totDiff)}">${sign(r.totDiff)}</td>`+
+      `<td class="${diffCls(r.avgDiff)}">${sign(r.avgDiff)}</td>`+
     `</tr>`;
   }).join('');
 }

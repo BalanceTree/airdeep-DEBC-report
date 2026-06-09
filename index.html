@@ -11,11 +11,16 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
 /* 섹션5 — 전월 대비 증가 TOP5 (11열) */
-.inc-top5{width:100%;min-width:880px;border-collapse:collapse;font-size:11px}
-.inc-top5 th,.inc-top5 td{padding:7px 8px;white-space:nowrap;border-bottom:1px solid var(--line-2,#F0F3F8);text-align:center}
+.inc-top5{width:100%;min-width:920px;border-collapse:collapse;font-size:11px;font-variant-numeric:tabular-nums}
+.inc-top5 th,.inc-top5 td{padding:7px 9px;white-space:nowrap;border-bottom:1px solid var(--line-2,#F0F3F8)}
 .inc-top5 thead th{background:#F6F8FC;color:#5B6577;font-weight:700;border-bottom:1px solid var(--line,#E5E9F0)}
-.inc-top5 td.inc-zone{text-align:left;font-weight:700}
-.inc-top5 td.num{text-align:right;font-variant-numeric:tabular-nums}
+/* 열별 정렬(헤더·셀 동일): 순위·구분 가운데 / 지역·허브 왼쪽 / 수치(5~11) 오른쪽 */
+.inc-top5 th:nth-child(1),.inc-top5 td:nth-child(1),
+.inc-top5 th:nth-child(2),.inc-top5 td:nth-child(2){text-align:center}
+.inc-top5 th:nth-child(3),.inc-top5 td:nth-child(3),
+.inc-top5 th:nth-child(4),.inc-top5 td:nth-child(4){text-align:left}
+.inc-top5 th:nth-child(n+5),.inc-top5 td:nth-child(n+5){text-align:right}
+.inc-top5 td:nth-child(3){font-weight:700}
 </style>
 </head>
 <body>
@@ -313,6 +318,6 @@
 </footer>
 </div>
 
-<script src="app.js?v=20260608-4"></script>
+<script src="app.js?v=20260608-5"></script>
 </body>
 </html>

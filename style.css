@@ -1027,7 +1027,7 @@ section {
   .kpi-grid { grid-template-columns: repeat(4,1fr) !important; }
   .chart-2col { grid-template-columns: 1fr 1fr !important; }
   .chart-3col { grid-template-columns: repeat(3,1fr) !important; }
-  .ov-grid { grid-template-columns: repeat(3,1fr) !important; }
+  .ov-grid { grid-template-columns: repeat(4,1fr) !important; }
   .facility-grid { grid-template-columns: repeat(auto-fit,minmax(180px,1fr)) !important; }
   .cw canvas { width: 100% !important; max-width: 100% !important; }
 
